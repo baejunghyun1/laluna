@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="head">
+        <title>Title</title>
+    </th:block>
+</head>
+<body class="paintingcat">
+<th:block layout:fragment="content">
+    <div style="display: flex; justify-content: flex-end; margin-right: 100px; margin-top: 75px">
+        <button id="secession" class="button">회원 탈퇴</button>
+    </div>
+
+    <div id="card_all" class="card-group" style="height: 75vh; text-align: center; justify-content: center; align-items: center;">
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-4 shadow">
+                    <div class="modal-header border-bottom-0">
+                        <h1 class="modal-title fs-5">수정하기</h1>
+                        <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body py-0">
+                        <p3>수정을 하시겠습니까?</p3>
+                    </div>
+                    <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                        <button type="button" onclick="window.location.href='/mypagect'" class="btn btn-lg btn-primary">수정하기</button>
+                        <button id="close1" type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">취소하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card master-border-style" style="max-width: 400px; margin: 20px; background-color: #829787; border: 2px solid #000000; border-radius: 20px; width: 30rem;">
+            <div class="card-header">
+                <h4>Master</h4>
+            </div>
+            <div class="card-body">
+                <div class="column">
+                    <form class="box">
+                        <div class="field">
+                            <label class="label" style="text-align: left;">아이디</label>
+                            <div class="control">
+                                <p th:text="${loginId}"></p>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">핸드폰 번호</label>
+                            <div class="control">
+                                <p th:text="${loginPhone}"></p>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">성별</label>
+                            <div class="control">
+                                <p th:text="${loginId}"></p>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">주소</label>
+                            <div class="control">
+                                <p th:text="${loginAddress}"></p>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">이메일</label>
+                            <div class="control">
+                                <p th:text="${loginEmail}"></p>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <button id="correction" class="button" style="background-color: #0f5132 ">수정하기</button>
+            </div>
+        </div>
+
+
+        <div style="display: flex; align-items: center;">
+            <div id="pet" class="card pet-border-style" style="max-width: 400px; border: 2px solid #000000;border-radius: 20px;background-color: #C5BA9E;margin-left: 20px; width: 30rem;">
+                <div class="card-header">
+                    <h4>Pet</h4>
+                </div>
+                <div class="card-body">
+                    <div class="column">
+                        <form class="box">
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">이름</label>
+                                <div class="control">
+                                    <p th:text="${pet.petname}"></p>
+                                </div>
+                            </div>
+
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">품종</label>
+                                <div class="control">
+                                    <p th:text="${pet.petkind}"></p>
+                                </div>
+                            </div>
+
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">나이</label>
+                                <div class="control">
+                                    <p th:text="${pet.petage}"></p>
+                                </div>
+                            </div>
+
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">성별</label>
+                                <div class="control">
+                                    <p th:text="${pet.petsex}"></p>
+                                </div>
+                            </div>
+
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">현재 상태</label>
+                                <div class="control">
+                                    <p th:text="${pet.petfeature}"></p>
+                                </div>
+                            </div>
+
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">건강 상태</label>
+                                <div class="control">
+                                    <p th:text="${pet.petcondition}"></p>
+                                </div>
+                            </div>
+
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">예방 접종</label>
+                                <div class="control">
+                                    <p th:text="${pet.petvac}"></p>
+                                </div>
+                            </div>
+
+                            <div class="field" th:each="pet : ${pets}">
+                                <label class="label">사진</label>
+                                <div class="control">
+                                    <p th:text="${pet.petfeature}"></p>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <button id="correction1" class="custom-btn btn-2">수정하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: flex-end; margin-right: 100px; margin-bottom: 75px">
+       <button class="custom-btn btn-12" type="button" onclick="home()"><span>홈 화면으로!!</span><span>홈 화면으로</span></button>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="secessionModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-bottom-0">
+                    <h1 class="modal-title fs-5">탈퇴하기</h1>
+                    <button id="close2" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-0">
+                    <p3>탈퇴를 하시겠습니까?</p3>
+                </div>
+                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                    <button type="button" class="btn btn-lg btn-primary">탈퇴하기</button>
+                    <button id="close3" type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">취소하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+
+    <script>
+
+        document.getElementById('secession').addEventListener('click', function() {
+            document.getElementById('secessionModal').style.display = 'block';
+        });
+
+        document.getElementById('correction1').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'block';
+        });
+        document.getElementById('correction1').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'block';
+        });
+
+        document.getElementById('close').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'none';
+        });
+        document.getElementById('close1').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'none';
+        });
+        document.getElementById('close2').addEventListener('click', function() {
+            document.getElementById('secessionModal').style.display = 'none';
+        });
+        document.getElementById('close3').addEventListener('click', function() {
+            document.getElementById('secessionModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById('myModal')) {
+                document.getElementById('myModal').style.display = 'none';
+            }
+        });
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById('secessionModal')) {
+                document.getElementById('secessionModal').style.display = 'none';
+            }
+        });
+
+        function home() {
+            window.location.href = '/home';
+        }
+    </script>
+
+</th:block>
+</body>
+</html>
+<style>
+
+.paintingcat {
+    width: 100%;
+    height: 350px;
+    background-image:url('/images/paintingcat.png');
+    background-repeat:no-repeat;
+    background-position:top left;
+    background-color: #e5f6eb;
+    }
+
+.btn-12{
+    position: relative;
+    right: 20px;
+    bottom: 20px;
+    border:none;
+    box-shadow: none;
+    width: 130px;
+    height: 40px;
+    line-height: 42px;
+    -webkit-perspective: 230px;
+    perspective: 230px;
+}
+.btn-12 span {
+    background: rgb(0,172,238);
+    background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+    display: block;
+    position: absolute;
+    width: 130px;
+    height: 40px;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    border-radius: 5px;
+    margin:0;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+.btn-12 span:nth-child(1) {
+    box-shadow:
+            -7px -7px 20px 0px #fff9,
+            -4px -4px 5px 0px #fff9,
+            7px 7px 20px 0px #0002,
+            4px 4px 5px 0px #0001;
+    -webkit-transform: rotateX(90deg);
+    -moz-transform: rotateX(90deg);
+    transform: rotateX(90deg);
+    -webkit-transform-origin: 50% 50% -20px;
+    -moz-transform-origin: 50% 50% -20px;
+    transform-origin: 50% 50% -20px;
+}
+.btn-12 span:nth-child(2) {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    -webkit-transform-origin: 50% 50% -20px;
+    -moz-transform-origin: 50% 50% -20px;
+    transform-origin: 50% 50% -20px;
+}
+.btn-12:hover span:nth-child(1) {
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+}
+.btn-12:hover span:nth-child(2) {
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    color: transparent;
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+}
+.btn-2 {
+    background: rgb(96,9,240);
+    background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+    border: none;
+
+    }
+    .btn-2:before {
+        height: 0%;
+        width: 2px;
+    }
+    .btn-2:hover {
+        box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+        -4px -4px 6px 0 rgba(116, 125, 136, .5),
+        inset -4px -4px 6px 0 rgba(255,255,255,.2),
+        inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+    }
+.paintingcat {
+    width: 100%;
+    height: 350px;
+    background-image:url('/images/paintingcat.png');
+    background-repeat:no-repeat;
+    background-position:top left;
+    background-color: #e5f6eb;
+    }
+
+.btn-12{
+    position: relative;
+    right: 20px;
+    bottom: 20px;
+    border:none;
+    box-shadow: none;
+    width: 130px;
+    height: 40px;
+    line-height: 42px;
+    -webkit-perspective: 230px;
+    perspective: 230px;
+}
+.btn-12 span {
+    background: rgb(0,172,238);
+    background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+    display: block;
+    position: absolute;
+    width: 130px;
+    height: 40px;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    border-radius: 5px;
+    margin:0;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+.btn-12 span:nth-child(1) {
+    box-shadow:
+            -7px -7px 20px 0px #fff9,
+            -4px -4px 5px 0px #fff9,
+            7px 7px 20px 0px #0002,
+            4px 4px 5px 0px #0001;
+    -webkit-transform: rotateX(90deg);
+    -moz-transform: rotateX(90deg);
+    transform: rotateX(90deg);
+    -webkit-transform-origin: 50% 50% -20px;
+    -moz-transform-origin: 50% 50% -20px;
+    transform-origin: 50% 50% -20px;
+}
+.btn-12 span:nth-child(2) {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    -webkit-transform-origin: 50% 50% -20px;
+    -moz-transform-origin: 50% 50% -20px;
+    transform-origin: 50% 50% -20px;
+}
+.btn-12:hover span:nth-child(1) {
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+}
+.btn-12:hover span:nth-child(2) {
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    color: transparent;
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+}
+.btn-2 {
+    background: rgb(96,9,240);
+    background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+    border: none;
+
+}
+.btn-2:before {
+    height: 0%;
+    width: 2px;
+}
+.btn-2:hover {
+    box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+    -4px -4px 6px 0 rgba(116, 125, 136, .5),
+    inset -4px -4px 6px 0 rgba(255,255,255,.2),
+    inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+}
+
+</style>

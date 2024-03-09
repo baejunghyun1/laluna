@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Madimi+One&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Madimi+One&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:fragment="headerFragment">
+    <nav class="navbar bg-body-tertiary" aria-label="Light offcanvas navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">
+                <div class="offcanvas-header">
+                    <img th:src="@{/images/luna.png}" alt="..." width="60px" height="60px"/>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/home">Home</a>
+                            <a class="nav-link active" href="/boards/list">BoardList</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                UserPage
+                            </a>
+                            <ul class="dropdown-menu">
+                                <main class="w-70 m-auto" style="margin-top: 0px">
+                                    <!--로그인시 보여질 로그아웃버튼 -->
+                                    <div sec:authorize="isAuthenticated()" class="mt-2">
+                                        <span th:text="${loginId}" style="font-weight: bold; margin-left: 10px"></span><span>님 반갑습니다!</span>
+                                        <form method="post" action="/logout">
+                                            <button class="btn btn-sm btn-danger btn-block mt-2" type="submit" id="logout_btn" style="margin-left: 10px">로그아웃</button>
+                                        </form>
+                                    </div>
+                                    <!-- 로그아웃 상태의 사용자에게 보여줄 메뉴 -->
+                                    <div sec:authorize="!isAuthenticated()">
+                                        <form id="loginForm" method="post" action="/login-process">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="memberid" style="margin-bottom: 10px">
+                                                <label for="floatingInput">Id</label>
+                                            </div>
+                                            <div class="form-floating">
+                                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="memberpassword">
+                                                <label for="floatingPassword">Password</label>
+                                            </div>
+
+                                            <div class="form-check text-start my-3">
+                                                <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    자동 로그인
+                                                </label>
+                                            </div>
+                                            <button class="btn btn-primary w-100 py-2 text-white; outline: none;" type="submit"
+                                                    style="background-color: #0f4b43;">Sign in</button>
+                                            <button class="btn btn-primary w-100 py-2 text-white" type="submit"
+                                                    style="background-color: #0f4b43; margin-top: 10px;" onclick="location.href='/view/join'">Register</button>
+                                        </form>
+                                    </div>
+                                </main>
+                                <div sec:authorize="isAuthenticated()" class="mt-2">
+                                    <li><a class="dropdown-item" href="/boards/register">Post registration</a></li>
+                                    <li><a class="dropdown-item" href="/view/mypage">MyPage</a></li>
+                                    <li><a class="dropdown-item" href="/mypagect">MyPage Modify</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--로그인 폼-->
+                <!--                    <main class="w-70 m-auto">-->
+                <!--                        &lt;!&ndash;로그인시 보여질 로그아웃버튼 &ndash;&gt;-->
+                <!--                        <div sec:authorize="isAuthenticated()" class="mt-2">-->
+                <!--                            <span th:text="${loginId}" style="font-weight: bold"></span><span>님 반갑습니다!</span>-->
+                <!--                            <form method="post" action="/logout">-->
+                <!--                                <button class="btn btn-sm btn-danger btn-block mt-2" type="submit" id="logout_btn">로그아웃</button>-->
+                <!--                            </form>-->
+                <!--                        </div>-->
+                <!--                        &lt;!&ndash; 로그아웃 상태의 사용자에게 보여줄 메뉴 &ndash;&gt;-->
+                <!--                        <div sec:authorize="!isAuthenticated()">-->
+                <!--                        <form id="loginForm" method="post" action="/login-process">-->
+                <!--                            <div class="form-floating">-->
+                <!--                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="memberid">-->
+                <!--                                <label for="floatingInput">Id</label>-->
+                <!--                            </div>-->
+                <!--                            <div class="form-floating">-->
+                <!--                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="memberpassword">-->
+                <!--                                <label for="floatingPassword">Password</label>-->
+                <!--                            </div>-->
+
+                <!--                            <div class="form-check text-start my-3">-->
+                <!--                                <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">-->
+                <!--                                <label class="form-check-label" for="flexCheckDefault">-->
+                <!--                                    자동 로그인-->
+                <!--                                </label>-->
+                <!--                            </div>-->
+                <!--                            <button class="btn btn-primary w-100 py-2 text-white" type="submit"-->
+                <!--                                    style="background-color: #0f4b43;">Sign in</button>-->
+                <!--                        </form>-->
+                <!--                        </div>-->
+                <!--                    </main>-->
+            </div>
+        </div>
+        </div>
+        <script>
+            document.getElementById('logout_btn').addEventListener('click', function() {
+                var result = alert("로그아웃 되었습니다.");
+                if (result) {
+                    document.getElementById('logoutForm').submit();
+                }
+            });
+        </script>
+    </nav>
+</th:block>
+<style>
+    /*글씨 폰트*/
+    .blog-header-logo{
+        font-family: "Playfair Display", serif;
+        font-weight: 500;
+        font-size: 50px;
+    }
+    .nav-link{
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+        font-size: 20px;
+    }
+    .lead{
+        font-family: "Gowun Dodum", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    .link-secondary{
+        font-family: "Madimi One", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+</style>
+</html>

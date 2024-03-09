@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="head">
+        <title>Title</title>
+        <style>
+            .form-signin {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 130vh;
+                width: 100%;
+            }
+            .form-signin form {
+                width: 100%;
+                max-width: 700px;
+                padding: 5px;
+                margin: 0;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="form-signin">
+            <form id='join_form'>
+                <h2 class="form-signin-heading text-center mb-5" style="color:#0f4b43; font-weight: bold;">회원가입</h2>
+
+                <p>
+                    <label for="memberid" class="sr-only">아이디</label>
+                    <input type="text" id="memberid" name="memberid" class="form-control" placeholder="아이디" required="" autofocus="">
+                </p>
+                <p>
+                    <label for="memberpassword" class="sr-only">비밀번호</label>
+                    <input type="password" id="memberpassword" name="memberpassword" class="form-control" placeholder="비밀번호" required="">
+                </p>
+                <!-- 추가된 부분 -->
+                <p>
+                    <label for="phone" class="sr-only">전화번호</label>
+                    <input type="text" id="phone" name="phone" class="form-control" placeholder="전화번호">
+                </p>
+                <p>
+                    <label for="address" class="sr-only">주소</label>
+                    <input type="text" id="address" name="address" class="form-control" placeholder="주소">
+                </p>
+                <p>
+                    <label for="email" class="sr-only">이메일</label>
+                    <input type="text" id="email" name="email" class="form-control" placeholder="이메일">
+                </p>
+                <!-- 펫 정보 -->
+                <p>
+                    <label for="petName" class="sr-only">펫 이름</label>
+                    <input type="text" id="petName" name="petname" class="form-control" placeholder="펫 이름" required="">
+                </p>
+                <p>
+                    <label for="petAge" class="sr-only">펫 나이</label>
+                    <input type="number" id="petAge" name="petage" class="form-control" placeholder="펫 나이" required="">
+                </p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="petsex"   value="true"  id="petSexMale">
+                    <label class="form-check-label" for="petSexMale">
+                        Male
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="petsex" value="false"  id="petSexFemale" checked>
+                    <label class="form-check-label" for="petSexFemale">
+                        Female
+                    </label>
+                </div>
+                 <p>
+                    <label for="petKind" class="sr-only">펫 종류</label>
+                    <input type="text" id="petKind" name="petkind" class="form-control" placeholder="펫 종류" required="">
+                </p>
+                <p>
+                    <label for="petFeature" class="sr-only">펫 특징</label>
+                    <input type="text" id="petFeature" name="petfeature" class="form-control" placeholder="펫 특징" required="">
+                </p>
+                <p>
+                    <label for="petVac" class="sr-only">펫 백신 여부</label>
+                    <input type="text" id="petVac" name="petvac" class="form-control" placeholder="펫 백신 여부" required="">
+                </p>
+                <p>
+                    <label for="petCondition" class="sr-only">펫 상태</label>
+                    <input type="text" id="petCondition" name="petcondition" class="form-control" placeholder="펫 상태" required="">
+                </p>
+
+                <button class="mt-5 btn btn-lg btn-outline-success btn-block w-100" type="submit"
+                        style="color:#0f4b43;">회원가입</button>
+            </form>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="script">
+    <script>
+        const form = document.getElementById('join_form');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const data = new FormData(form);
+            const param = JSON.stringify(Object.fromEntries(data));
+
+            console.log(Object.fromEntries(data));
+
+            fetch('/auth/join', {
+                method: 'POST',
+                body: param,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.status == 200) {
+                        window.location.href = '/view/login';
+                        alert("회원가입 성공");
+                    } else {
+                        alert("회원가입 실패");
+                    }
+                })
+                .catch(error => console.log(error));
+        });
+    </script>
+</th:block>
+</body>
+</html>

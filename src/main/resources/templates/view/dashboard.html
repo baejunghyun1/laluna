@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="head">
+        <title>Title</title>
+    </th:block>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <h3 class="form-signin-heading text-center mb-5" style="color:#0f4b43; font-weight: bold;">LOGIN INFO</h3>
+
+        <h3 class="overview-normalize">접속중인 아이디</h3>
+
+        <p th:text="${loginId}"></p>
+
+        <hr/>
+        <h3 class="overview-normalize">역할</h3>
+
+        <p th:text="${loginRoles}"></p>
+
+        <hr/>
+        <h3 class="overview-normalize">Phone</h3>
+
+        <p th:text="${loginPhone}"></p>
+
+        <hr/>
+        <h3 class="overview-normalize">Address</h3>
+
+        <p th:text="${loginAddress}"></p>
+
+        <hr/>
+        <h3 class="overview-normalize">loginno</h3>
+
+        <p th:text="${loginno}"></p>
+
+        <hr/>
+        <h3 class="overview-normalize">Email</h3>
+
+        <p th:text="${loginEmail}"></p>
+        <hr/>
+        <table>
+            <thead>
+            <tr>
+                <th>펫 번호</th>
+                <th>펫 이름</th>
+                <th>펫 나이</th>
+                <th>펫 성별</th>
+                <th>펫 종류</th>
+                <th>펫 정보(특징)</th>
+                <th>펫 백신</th>
+                <th>펫 건강상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pet : ${pets}">
+                <td th:text="${pet.petnum}"></td>
+                <td th:text="${pet.petname}"></td>
+                <td th:text="${pet.petage}"></td>
+                <td th:text="${pet.petsex ? '수컷' : '암컷'}"></td>
+                <td th:text="${pet.petkind}"></td>
+                <td th:text="${pet.petfeature}"></td>
+                <td th:text="${pet.petvac}"></td>
+                <td th:text="${pet.petcondition}"></td>
+            </tr>
+            </tbody>
+        </table>
+<!--        <h3 class="overview-normalize">역할에 따른 페이지 이동 권한 확인</h3>-->
+<!--        <p>-->
+<!--            <button onclick="location.href='/view/setting/admin'" class="btn btn-sm btn-success">관리자 설정 페이지(관리자만)</button>-->
+<!--            <button onclick="location.href='/view/setting/user'" class="btn btn-sm btn-info">유저 설정 페이지(유저만)</button>-->
+<!--        </p>-->
+<!--        <hr/>-->
+        <form method="post" action="/logout">
+            <button class="btn btn-sm btn-danger btn-block" type="submit" id="logout_btn">로그아웃</button>
+        </form>
+    </div>
+</th:block>
+<th:block layout:fragment="script">
+    <script>
+        const loginId = document.getElementById('login_id');
+        loginId.innerHTML = sessionStorage.getItem('userid');
+
+        const logoutBtn = document.getElementById('logout_btn');
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.setItem('userid', '');
+        });
+    </script>
+</th:block>
+</body>
+</html>

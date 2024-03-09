@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <th:block layout:fragment="head">
+        <title>일상게시판</title>
+    </th:block>
+</head>
+<body class="print">
+<th:block layout:fragment="content">
+    <button class="custom-btn btn-12" id="register" onclick="location.href='/boards/list'"><span>메인으로!!</span><span>메인으로</span></button>
+    <div class="card" style="width: 65rem; margin: 0 auto;">
+        <div class="card-body">
+            <h1 class="card-title" th:text="${board.category}"></h1>
+            <h3 class="card-subtitle mb-2 text-body-secondary" th:text="${board.title}"></h3>
+    </div>
+    <hr class="line1" />
+                <div class="Content">
+                        <div class="user-body">
+                            <div class="user-body">
+                                <p>작성자: <span th:text="${board.mid}"></span>
+                                <div th:if="${#authorization.expression('isAuthenticated()')}">
+                                <div th:if="${board.mid == loginId}">
+                                    <a class="update1" href="#" th:href="@{/boards/update/{boardno}(boardno=${board.boardno})}">
+                                    <button type="submit" class="btn btn-outline-success">게시글 수정</button>
+                                </a>
+                                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                                        <div th:if="${board.mid == loginId}">
+                                            <button type="button" class="btn btn-outline-danger" id="boardremove">게시글 삭제</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                </p>
+                                <div th:each="petResponse : ${board.pets}">
+                                    <span th:text="'이름: ' + ${petResponse.petname}"></span>
+                                    <span th:text="'나이: ' + ${petResponse.petage}"></span>
+                                    <span th:text="'종류: ' + ${petResponse.petkind}"></span>
+                                    <span th:text="'특징: ' + ${petResponse.petfeature}"></span>
+                                    <span th:text="'예방접종: ' + ${petResponse.petvac}"></span>
+                                    <span th:text="'상태: ' + ${petResponse.petcondition}"></span>
+                                    <span th:text="${petResponse.petsex ? '성별: 수컷' : '성별: 암컷'}"></span>
+                                </div>
+                                <div class="modal" tabindex="-1" role="dialog" id="myModal">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content rounded-4 shadow">
+                                            <div class="modal-header border-bottom-0">
+                                                <h1 class="modal-title fs-5">수정하기</h1>
+                                                <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body py-0">
+                                                <p3>삭제 하시겠습니까?</p3>
+                                            </div>
+                                            <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                                                <button type="button" class="btn btn-lg btn-primary" id="remove">삭제하기</button>
+                                                <button id="close1" type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">취소하기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+        </div>
+        <hr class="line2" />
+        <div>
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="Content">
+                        <img th:src="@{/images/강아지 사진.jpg}" alt="..."/>
+                        <p class="card-text" th:text="${board.content}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="line2" />
+        <form action="/boards/boardview" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
+            <input type="hidden" name="boardno" th:value="${board.boardno}">
+            <input type="hidden" name="replyer" th:data-loginId="${loginId}" th:value="${loginId}">
+            <input type="text" id="replyContent" name="replytext" style="width: 930px;" placeholder="댓글을 입력해주세요.">
+            <button id="submit" class="custom-btn btn-2">등록하기</button>
+        </form>
+        <table>
+            <thead>
+            <tr>
+                <th>댓글번호</th>
+                <th>아이디</th>
+                <th>댓글</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reply : ${replies}">
+                <td th:text="${reply.replyno}"></td>
+                <td th:text="${reply.replyer}"></td>
+                <td th:text="${reply.replytext}"></td>
+                <td th:text="${#temporals.format(reply.regdate, 'MM-dd HH:mm')}"></td>
+                <td>
+                    <button class="delete-btn" th:data-replyno="${reply.replyno}" th:data-replyer="${reply.replyer}" th:data-loginid="${loginId}">삭제</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="fixed_top">
+            <a href="#">위로</a>
+        </p>
+        <div id="modalContainer" class="hidden">
+            <div class="btn-container" id="modalContent">
+                <button id="modalCloseButton" class="btn-close"></button>
+                <p>등록 하시겠습니까?</p>
+                <button id="modalRegisterButton" class="btn-register">등록하기</button>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        // 댓글 삭제 스크립트
+        document.addEventListener("DOMContentLoaded", function() {
+            // 삭제 버튼에 이벤트 리스너 추가
+            document.querySelectorAll(".delete-btn").forEach(function(button) {
+                button.addEventListener("click", function() {
+                    var replyno = this.getAttribute("data-replyno"); // 댓글 번호 가져오기
+                    var replyer = this.getAttribute("data-replyer");   // 작성자 정보 가져오기
+                    var currentUser = this.getAttribute("data-loginid"); //로그인된 회원 정보 가져오기
+
+                    if (currentUser == replyer && confirm("정말로 삭제하시겠습니까?")) { //작성자와 로그인한 작성자의 정보가 일치하면 삭제
+                        fetch(`/boards/deleteReply/${replyno}`, {
+                            method: "DELETE"
+                        })
+                            .then(response => {
+
+                                console.log('댓글이 삭제되었습니다.');
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error('댓글 삭제중 오류가 발생:', error);
+                            });
+                    } else if (currentUser !== replyer) {
+                        // 댓글 작성자가 아닌 경우
+                        confirm("댓글 작성자만 삭제할 수 있습니다.");
+                    } else {
+                        console.log('댓글 삭제가 취소되었습니다.');
+                    }
+                });
+            });
+        });
+
+
+        // 게시글 삭제 스크립트
+        document.addEventListener('DOMContentLoaded', function(){
+            var btn = document.getElementById('boardremove');
+            var modal = new bootstrap.Modal(document.getElementById('myModal'));
+
+            btn.addEventListener('click', function(){
+                modal.show();
+            });
+        });
+
+        document.getElementById('remove').addEventListener('click', function() {
+            // 현재 페이지의 URL에서 게시글 ID 추출
+            var boardno = window.location.pathname.split('/')[3];
+
+            // 삭제 요청 보내기
+            fetch('/boards/delete/' + boardno, {
+                method: 'DELETE',
+            }).then(function(response) {
+                // 요청이 성공적으로 완료되었는지와 상관없이 게시글 목록 페이지로 이동
+                window.location.href = '/boards/list';
+            }).catch(function(error) {
+                // 네트워크 에러 처리
+                console.error('Network error: ' + error);
+            });
+        });
+        //로그인된 회원만 보이는 버튼
+    </script>
+</th:block>
+</body>
+</html>
+<style>
+    .card-title {
+        text-align: center;
+    }
+
+    .card-subtitle {
+        text-align: center;
+    }
+
+    .user-body {
+        display: flex;
+        flex-direction: column;
+    }
+
+   .print {
+       background-color: #ffffff;
+   }
+
+    .line1 {
+        width: 100%;
+        margin-right: unset;
+    }
+
+    .line2 {
+        width: 100%;
+        margin: 0;
+    }
+
+    .btn-outline-danger{
+        position: absolute;
+        right: 10px;
+    }
+    .btn-outline-success{
+        position: absolute;
+        right: 130px;
+    }
+    .vertical-line {
+        border-left: 2px solid #b7bed5; /* 세로줄의 스타일을 지정합니다. */
+        height: 50px; /* 세로줄의 높이를 조정할 수 있습니다. */
+        margin: 0 10px; /* 세로줄의 좌우 간격을 조정할 수 있습니다. */
+    }
+    /*위로 가기 버튼*/
+    .fixed_top{
+        position: fixed;
+        top: 49%;
+        right: 3%;
+        width: 33px;
+        height: 33px;
+        margin: 0;
+        z-index: 1;
+    }
+    .fixed_top a{
+        display: block;
+        width: 33px;
+        height: 33px;
+        background: url("/images/img_arr_top.png") no-repeat;
+        text-indent: -99999999px;
+        overflow: hidden;
+    }
+    /*댓글*/
+    .reply_write_box{
+        padding: 12px 12px 12px;
+        background: #fafafa;
+        border-top: 2px solid #5c64ad;
+    }
+    /* 모달 */
+    #modalOpenButton, #modalCloseButton {
+        cursor: pointer;
+    }
+
+    #modalContainer.hidden {
+        display: none;
+    }
+    #modalContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #modalContent {
+        width: 230px;
+        height: 130px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+    .btn-register {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-close {
+        float: right;
+    }
+    .modal-dialog {
+        margin-top: 0; /* 모달의 상단 여백을 0으로 설정 */
+    }
+/*멋있는 버튼*/
+    .btn-12{
+        position: relative;
+        right: 20px;
+        bottom: 20px;
+        border:none;
+        box-shadow: none;
+        width: 130px;
+        height: 40px;
+        line-height: 42px;
+        -webkit-perspective: 230px;
+        perspective: 230px;
+    }
+    .btn-12 span {
+        background: rgb(0,172,238);
+        background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+        display: block;
+        position: absolute;
+        width: 130px;
+        height: 40px;
+        box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+        border-radius: 5px;
+        margin:0;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all .3s;
+        transition: all .3s;
+    }
+    .btn-12 span:nth-child(1) {
+        box-shadow:
+                -7px -7px 20px 0px #fff9,
+                -4px -4px 5px 0px #fff9,
+                7px 7px 20px 0px #0002,
+                4px 4px 5px 0px #0001;
+        -webkit-transform: rotateX(90deg);
+        -moz-transform: rotateX(90deg);
+        transform: rotateX(90deg);
+        -webkit-transform-origin: 50% 50% -20px;
+        -moz-transform-origin: 50% 50% -20px;
+        transform-origin: 50% 50% -20px;
+    }
+    .btn-12 span:nth-child(2) {
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        -webkit-transform-origin: 50% 50% -20px;
+        -moz-transform-origin: 50% 50% -20px;
+        transform-origin: 50% 50% -20px;
+    }
+    .btn-12:hover span:nth-child(1) {
+        box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+    }
+    .btn-12:hover span:nth-child(2) {
+        box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+        color: transparent;
+        -webkit-transform: rotateX(-90deg);
+        -moz-transform: rotateX(-90deg);
+        transform: rotateX(-90deg);
+    }
+    /*배경 스타일*/
+    .print{
+        /* 배경 이미지를 설정합니다 */
+        background-image: url('/images/music-1813100_640.png');
+        /* 배경 이미지를 반복하지 않도록 설정합니다 */
+        background-repeat: no-repeat;
+        /* 배경 이미지를 오른쪽 상단에 위치시키도록 설정합니다 */
+        background-position: right;
+        /*배경 화면 색깔을 설정합니다.*/
+        background-color: #ffffff;
+    }
+    /*카테고리 폰트*/
+    .card-title {
+        font-family: "Gowun Dodum", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+     .card-subtitle{
+         font-family: "Noto Sans KR", sans-serif;
+         font-optical-sizing: auto;
+         font-weight: <weight>;
+         font-style: normal;
+     }
+
+     /*댓글 표로 표현*/
+     table{ border-collapse : collapse; }  /*이중선 제거*/
+    th,td{
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        border: 1px #146c43;
+
+        vertical-align: top;	/* 위 */
+        vertical-align: bottom;   /* 아래 */
+        vertical-align: middle;   /* 가운데 */
+    }
+
+    /*등록하기 버튼*/
+    .btn-2 {
+        background: rgb(9, 186, 240);
+        background: linear-gradient(0deg, rgb(9, 232, 240) 0%, rgb(5, 220, 240) 100%);
+        border: none;
+
+    }
+    .btn-2:before {
+        height: 0%;
+        width: 2px;
+    }
+    .btn-2:hover {
+        box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+        -4px -4px 6px 0 rgba(116, 125, 136, .5),
+        inset -4px -4px 6px 0 rgba(255,255,255,.2),
+        inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+    }
+    .custom-btn{
+        font-family: "Noto Sans KR", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
+    }
+
+</style>
+
+
+
+
+
+</style>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="head">
+        <title>Title</title>
+    </th:block>
+</head>
+<body class="dogandcat">
+<th:block layout:fragment="content">
+    <div style="display: flex; justify-content: flex-end; margin-right: 100px; margin-top: 75px">
+        <button id="secession" class="button">회원 탈퇴</button>
+    </div>
+
+    <div id="card_all" class="card-group" style="height: 75vh; text-align: center; justify-content: center; align-items: center;">
+        <div class="card master-border-style" style="max-width: 400px; margin: 20px; background-color: #829787; border: 2px solid #000000; border-radius: 20px; width: 30rem;">
+            <div class="card-header">
+                <h4>Master</h4>
+            </div>
+            <div class="card-body">
+                <div class="column">
+                    <form th:action="@{/auth/update_member_info}" method="post">
+                        <div class="field">
+                            <label class="label" style="text-align: left;">아이디</label>
+                            <div class="control">
+                                <input class="input" name="memberid" style="text-align: center;" type="text" placeholder="ID">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">비밀번호</label>
+                            <div class="control">
+                                <input class="input" name="memberpassword" style="text-align: center;" type="text" placeholder="PASSWORD">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">핸드폰 번호</label>
+                            <div class="control">
+                                <input class="input" name="phone" style="text-align: center;" type="text" placeholder="PhoneNumber">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">성별</label>
+                            <div class="control">
+                                <input class="input" style="text-align: center;" type="text" placeholder="Sex">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">주소</label>
+                            <div class="control">
+                                <input class="input" name="address" style="text-align: center;" type="text" placeholder="Adress">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">이메일</label>
+                            <div class="control">
+                                <input class="input" name="email" style="text-align: center;" type="text" placeholder="Email">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div>
+                <button id="register" class="button" style="background-color: #0f5132 ">등록하기</button>
+            </div>
+        </div>
+
+
+        <div style="display: flex; align-items: center;">
+            <div id="pet" class="card pet-border-style" style="max-width: 400px; border: 2px solid #000000;border-radius: 20px;background-color: #C5BA9E;margin-left: 20px; width: 30rem;">
+                <div class="card-header">
+                    <h4>Pet</h4>
+                </div>
+                <div class="card-body">
+                    <div class="column">
+                        <form th:action="@{/auth/update_pet_info}" method="post">
+                            <div class="field">
+                                <label class="label">이름</label>
+                                <div class="control">
+                                    <input class="input" name="petname" style="text-align: center;" type="text" placeholder="Name">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">품종</label>
+                                <div class="control">
+                                    <input class="input" name="petkind" style="text-align: center;" type="text" placeholder="Kind">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">나이</label>
+                                <div class="control">
+                                    <input class="input" name="petage" style="text-align: center;" type="number" placeholder="Age">
+                                </div>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="petsex"   value="true"  id="petSexMale">
+                                <label class="form-check-label" for="petSexMale">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="petsex" value="false"  id="petSexFemale" checked>
+                                <label class="form-check-label" for="petSexFemale">
+                                    Female
+                                </label>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">펫 정보</label>
+                                <div class="control">
+                                    <input class="input" name="petfeature" style="text-align: center;" type="text" placeholder="Post">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">건강 상태</label>
+                                <div class="control">
+                                    <input class="input" name="petcondition" style="text-align: center;" type="text" placeholder="Condition">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">예방 접종</label>
+                                <div class="control">
+                                    <input class="input" name="petvac" style="text-align: center;" type="text" placeholder="Vac">
+                                </div>
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="myModal">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content rounded-4 shadow">
+                                        <div class="modal-header border-bottom-0">
+                                            <h1 class="modal-title fs-5">등록하기</h1>
+                                            <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body py-0">
+                                            <p3>등록을 하시겠습니까?</p3>
+                                        </div>
+                                        <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                                            <button id="last" class="mt-5 btn btn-lg btn-outline-success btn-block w-100" type="submit"
+                                                    style="color:#0f4b43;">등록하기</button>
+                                            <button id="close1" type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">취소하기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <button id="register1" class="button" style="background-color: #523e02">등록하기</button>
+                </div>
+            </div>
+            <button id="addCardBtn" class="btn-icon" style="margin-left: 10px; border: none; background-color: transparent;">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="25"
+                     height="25"
+                     fill="currentColor"
+                     class="bi bi-plus-circle"
+                     viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+            </button>
+            <button id="deleteCardBtn" class="btn-icon" style="margin-right: 10px; margin-top: 75px; border: none; background-color: transparent;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-right: 100px; margin-bottom: 75px">
+        <button class="custom-btn btn-12" type="button" onclick="home()"><span>홈 화면으로!!</span><span>홈 화면으로</span></button>
+    </div>
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="secessionModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-bottom-0">
+                    <h1 class="modal-title fs-5">탈퇴하기</h1>
+                    <button id="close2" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-0">
+                    <p3>탈퇴를 하시겠습니까?</p3>
+                </div>
+                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                    <button type="button" class="btn btn-lg btn-primary">탈퇴하기</button>
+                    <button id="close3" type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">취소하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        var maxCardCount = 5;
+        var cardCount = 0;
+
+        function addCard() {
+            if (cardCount >= maxCardCount) {
+                alert("최대 " + maxCardCount + "개의 카드를 추가할 수 있습니다.");
+                return;
+            }
+            cardCount++;
+
+            var originalCard = document.getElementById('pet');
+            var newCard = originalCard.cloneNode(true);
+            newCard.setAttribute('id', 'pet' + cardCount);
+
+            var registerButton = newCard.querySelector('.button');
+            registerButton.setAttribute('id', 'register1' + cardCount);
+            registerButton.addEventListener('click', function() {
+                document.getElementById('myModal').style.display = 'block';
+            });
+
+            document.getElementById('card_all').appendChild(newCard);
+        }
+
+        document.getElementById('addCardBtn').addEventListener('click', addCard);
+
+
+        var minCardCount = 1;
+
+        function deleteCard() {
+            var cardToRemove = document.getElementById('pet' + cardCount);
+            cardToRemove.parentNode.removeChild(cardToRemove);
+
+            if (cardCount <= minCardCount) {
+                cardToRemove.parentNode.removeChild(cardToRemove);
+                return;
+            }
+
+            cardCount--;
+
+        }
+
+        document.getElementById('deleteCardBtn').addEventListener('click', deleteCard);
+
+
+
+        document.getElementById('secession').addEventListener('click', function() {
+            document.getElementById('secessionModal').style.display = 'block';
+        });
+
+
+        document.getElementById('register').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'block';
+        });
+        document.getElementById('register1').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'block';
+        });
+
+        document.getElementById('close').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'none';
+        });
+        document.getElementById('close1').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'none';
+        });
+        document.getElementById('close2').addEventListener('click', function() {
+            document.getElementById('secessionModal').style.display = 'none';
+        });
+        document.getElementById('close3').addEventListener('click', function() {
+            document.getElementById('secessionModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById('myModal')) {
+                document.getElementById('myModal').style.display = 'none';
+            }
+        });
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById('secessionModal')) {
+                document.getElementById('secessionModal').style.display = 'none';
+            }
+        });
+        function home() {
+            window.location.href = '/home';
+        }
+
+    </script>
+</th:block>
+</body>
+</html>
+<style>
+    .dogandcat {
+        width: 100%;
+        height: 1000px;
+        background-image:url('/images/dog&cat.png');
+        background-repeat:no-repeat;
+        background-position:bottom right;
+        background-color: #BFD49E;
+    }
+    .btn-12{
+        position: relative;
+        right: 20px;
+        bottom: 20px;
+        border:none;
+        box-shadow: none;
+        width: 130px;
+        height: 40px;
+        line-height: 42px;
+        -webkit-perspective: 230px;
+        perspective: 230px;
+    }
+    .btn-12 span {
+        background: rgb(0,172,238);
+        background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+        display: block;
+        position: absolute;
+        width: 130px;
+        height: 40px;
+        box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+        border-radius: 5px;
+        margin:0;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all .3s;
+        transition: all .3s;
+    }
+    .btn-12 span:nth-child(1) {
+        box-shadow:
+                -7px -7px 20px 0px #fff9,
+                -4px -4px 5px 0px #fff9,
+                7px 7px 20px 0px #0002,
+                4px 4px 5px 0px #0001;
+        -webkit-transform: rotateX(90deg);
+        -moz-transform: rotateX(90deg);
+        transform: rotateX(90deg);
+        -webkit-transform-origin: 50% 50% -20px;
+        -moz-transform-origin: 50% 50% -20px;
+        transform-origin: 50% 50% -20px;
+    }
+    .btn-12 span:nth-child(2) {
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        -webkit-transform-origin: 50% 50% -20px;
+        -moz-transform-origin: 50% 50% -20px;
+        transform-origin: 50% 50% -20px;
+    }
+    .btn-12:hover span:nth-child(1) {
+        box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+    }
+    .btn-12:hover span:nth-child(2) {
+        box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+        color: transparent;
+        -webkit-transform: rotateX(-90deg);
+        -moz-transform: rotateX(-90deg);
+        transform: rotateX(-90deg);
+    }
+</style>

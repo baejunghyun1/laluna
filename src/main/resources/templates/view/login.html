@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="head">
+        <title>Title</title>
+        <style>
+            .form-signin {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .form-signin form {
+                width: 100%;
+                max-width: 330px;
+                padding: 5px;
+                margin: 0;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="form-signin">
+        <form method="post" action="/login-process">
+            <p class="text-center">
+                <img src="/images/luna.png" class="img-thumbnail" style="width: 200px;" alt="이 글이 보인다면 시큐리티 설정 잘못한거임!">
+            </p>
+            <h2 class="form-signin-heading text-center mb-5"  style="color:#0f4b43; font-weight: bold;">WELCOME! LUNA!</h2>
+
+            <p>
+                <label for="username" class="sr-only">아이디</label>
+                <input type="text" id="username" name="memberid" class="form-control" placeholder="아이디" required="" autofocus="">
+            </p>
+            <p>
+                <label for="password" class="sr-only">비밀번호</label>
+                <input type="password" id="password" name="memberpassword" class="form-control" placeholder="비밀번호" required="">
+            </p>
+            <button class="btn btn-lg btn-outline-success btn-block w-100" type="submit" id="login_btn"
+                    style="color:#0f4b43;">로그인</button>
+        </form>
+
+        <form method="get" action="/view/join">
+            <button class="btn btn-lg btn-outline-success btn-block w-100" type="submit"
+                    style="color:#0f4b43;">회원가입하기</button>
+        </form>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="script">
+    <script>
+    </script>
+</th:block>
+</body>
+</html>

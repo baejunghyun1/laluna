@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="head">
+        <title>Title</title>
+
+        <script src="/path/to/your/script.js"></script>
+    </th:block>
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container" id="customContainer">
+        <form action = "/boards/register" method="post">
+        <!-- 게시판 카테고리 -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="category-button ps-lg-5">
+                    <button type="button" class="btn btn-outline-light w-50">카테고리</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select id="categorySelect" class="form-select" name="category">
+                    <option selected>게시판 카테고리를 선택해 주세요</option>
+                    <option value="일상게시판">일상게시판</option>
+                    <option value="꿀팁게시판">꿀팁게시판</option>
+                    <option value="건강게시판">건강게시판</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 이미지 업로드 드래그 영역 -->
+        <div class="upload-box ps-5">
+            <!-- Drag and drop area 1 -->
+            <div class="upload-box1">
+                <div class="drag-file" id="drop-file1">
+                    <img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image">
+                    <p class="message">Drag files to upload</p>
+                </div>
+                <div class="upload-buttons">
+                    <label class="file-label" for="chooseFile1">사진 1</label>
+                    <input class="file" id="chooseFile1" type="file" multiple>
+                </div>
+            </div>
+
+            <!-- Drag and drop area 2 -->
+            <div class="upload-box1">
+                <div class="drag-file" id="drop-file2">
+                    <img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image">
+                    <p class="message">Drag files to upload</p>
+                </div>
+                <div class="upload-buttons">
+                    <label class="file-label" for="chooseFile2">사진 2</label>
+                    <input class="file" id="chooseFile2" type="file" multiple>
+                </div>
+            </div>
+
+            <!-- Drag and drop area 3 -->
+            <div class="upload-box1">
+                <div class="drag-file" id="drop-file3">
+                    <img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image">
+                    <p class="message">Drag files to upload</p>
+                </div>
+                <div class="upload-buttons">
+                    <label class="file-label" for="chooseFile3">사진 3</label>
+                    <input class="file" id="chooseFile3" type="file" multiple>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <!-- 제목 입력 -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="title-button ps-lg-5">
+                    <button type="button" class="btn btn-outline-light w-50">제목</button>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                    <input type="text" name="title" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default" placeholder="제목을 입력하세요">
+                </div>
+            </div>
+        </div>
+
+        <!-- 내용 입력 -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="content-button ps-lg-5">
+                    <button type="button" class="btn btn-outline-light w-50">내용</button>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                        <textarea class="form-control" aria-label="Sizing example input" name="content"
+                                  aria-describedby="inputGroup-sizing-default" placeholder="내용을 입력하세요"
+                                  style="resize: vertical; color: #000;"></textarea>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <!-- "등록" 버튼 -->
+        <div style="text-align: center;">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Submit</button>
+            <br>
+        </div>
+
+        <!-- "배경색상선택" 버튼 -->
+        <div>
+            <label for="colorPicker">Plz Choose<br>BG Color:</label>
+            <input type="color" id="colorPicker" value="#47627b" onchange="changeColor()">
+            <br>
+            <input type="text" id="hexInput" value="#47627b" oninput="changeColorByHex()">
+        </div>
+    </div>
+
+    <!-- 등록 모달 -->
+    <div class="modal" tabindex="-1" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">게시판 카테고리</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>게시글을 등록하시겠습니까?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" submitBtn>Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <style>
+        .col-md-4 {
+            margin-left: 500px;
+        }
+
+        .col-md-8 {
+            margin-left: 65px;
+        }
+
+        .col-md-3 {
+            margin-left: 35px
+        }
+        .container {
+            padding: 20px;
+            transition: background-color 0.5s ease;
+        }
+
+        .file-label {
+            background-color: #beb4b4;
+            color: #fff;
+            text-align: center;
+            padding: 0 0;
+            width: 300px;
+            height: 50px;
+            margin: 0 0;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 50px;
+        }
+
+        .file {
+            display: none;
+        }
+
+        .upload-box {
+            display: flex;
+            flex-direction: row;
+
+        }
+        .upload-box1 {
+            display: flex;
+            flex-direction: column;
+            margin-right: 75px;
+        }
+
+        .upload-buttons {
+            display: flex;
+            flex-direction: column;
+            margin-right: 75px;
+        }
+
+        .drag-file {
+            width: 300px;
+            height: 300px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 6px dashed #dbdbdb;
+            border-radius: 20px;
+        }
+
+        .drag-file .highlight {
+            border: 3px dashed red;
+            border-radius: 20px;
+        }
+
+        .drag-file .image {
+            width: 40px;
+        }
+
+        .drag-file .message {
+            margin-bottom: 0;
+        }
+
+        .category-button {
+            margin-top: 10px;
+        }
+
+        #categorySelect {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* "등록" 버튼 스타일 추가 */
+        button.btn-primary {
+            background-color: #719fa1; /* 녹색으로 변경 */
+            font-size: 20px; /* 폰트 크기를 20px로 변경 */
+            padding: 10px 20px; /* 내부 여백을 조절하여 크기를 조절 */
+            color: #ffffff;
+            border: none;
+        }
+
+        /* "등록" 버튼 호버 시 스타일 추가 */
+        button.btn-primary:hover {
+            background-color: #262d27; /* 호버 시의 색상 */
+        }
+
+        label[for="colorPicker"] {
+            color: #ffffff; /* 원하는 색상으로 변경 */
+            font-family: 'Nanum Pen Script', sans-serif; /* 원하는 폰트로 변경 (여기서는 Arial) */
+        }
+
+        #hexInput {
+            width: 11%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: transparent; /* 배경을 투명하게 설정 */
+            color: #fff;
+        }
+
+    </style>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        console.log('here is script')
+        changeColor();
+
+        function changeColor() {
+            var selectedColor = document.getElementById("colorPicker").value;
+            document.getElementById("customContainer").style.backgroundColor = selectedColor;
+            document.getElementById("hexInput").value = selectedColor;
+        }
+
+        function changeColorByHex() {
+            var hexColor = document.getElementById("hexInput").value;
+            document.getElementById("customContainer").style.backgroundColor = hexColor;
+        }
+
+        const dropAreas = document.querySelectorAll(".drag-file");
+
+        dropAreas.forEach(dropArea => {
+            dropArea.addEventListener("dragenter", highlight, false);
+            dropArea.addEventListener("dragover", highlight, false);
+            dropArea.addEventListener("dragleave", unhighlight, false);
+            dropArea.addEventListener("drop", handleDrop, false);
+        });
+
+        function handleDrop(e) {
+            e.preventDefault();
+
+            unhighlight(e);
+            let dt = e.dataTransfer;
+            let files = dt.files;
+
+            files = [...files];
+            files.forEach((file, index) => {
+                let fileElement = renderFile(file);
+
+                // 드롭된 사진을 드래그 영역에 추가
+                displayThumbnail(fileElement, e.currentTarget, index);
+            });
+        }
+
+        function displayThumbnail(fileElement, dropArea, index) {
+            // 드롭된 사진을 드래그 영역에 추가
+            dropArea.innerHTML = ''; // 기존 콘텐츠 제거
+            dropArea.appendChild(fileElement);
+        }
+
+        function highlight(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add("highlight");
+        }
+
+        function unhighlight(e) {
+            e.currentTarget.classList.remove("highlight");
+        }
+
+        function renderFile(file) {
+            let blobUrl = URL.createObjectURL(file);
+            let img = document.createElement("img");
+            img.src = blobUrl;
+            img.alt = file.name;
+            img.className = "thumbnail";
+            return img;
+        }
+
+        const errors = [[${errors}]]
+        console.log(errors)
+
+        let errorMsh = ''
+
+        if(errors) {
+            for (let i = 0; i < errors.length; i++) {
+                errorMsg += `${errors[i].filed}은(는) ${errors[i].code} \n`
+            }
+            alert(errorMsg)
+        }
+    </script>
+</th:block>
+</body>
+</html>

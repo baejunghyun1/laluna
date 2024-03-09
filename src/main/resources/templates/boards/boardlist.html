@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Madimi+One&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Madimi+One&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block layout:fragment="head">
+        <title>Title</title>
+    </th:block>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <header class="border-bottom lh-1 py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-4 pt-1">
+                    <a class="link-secondary" href="/home">Home</a>
+                </div>
+                <div class="col-4 text-center">
+                    <a class="blog-header-logo text-body-emphasis text-decoration-none" href="#" id="font">La-Luna Board</a>
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <a class="link-secondary" href="#" aria-label="Search">
+                        <form id="searchForm" th:action="@{'/boards/board/'}" method="get">
+                            <input type="text" id="title" name="title">
+                            <svg xmlns="http://www.w3.org/2000/svg" onclick="submitForm()" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
+                        </form>
+                    </a>
+                    <div sec:authorize="isAuthenticated()" class="mt-2">
+                    <a class="btn btn-sm btn-outline-secondary" href="/boards/register">추억 공유하기</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--게시판 링크-->
+        <div class="nav-scroller py-1 mb-3 border-bottom">
+            <nav class="nav nav-underline justify-content-between">
+                <a class="nav-item nav-link link-body-emphasis" th:href="@{/boards/list}">Board All</a>
+                <a class="nav-item nav-link link-body-emphasis" th:href="@{/boards/category/{category}(category='일상게시판')}">Daily board</a>
+                <a class="nav-item nav-link link-body-emphasis" th:href="@{/boards/category/{category}(category='꿀팁게시판')}">Honey Tip board</a>
+                <a class="nav-item nav-link link-body-emphasis" th:href="@{/boards/category/{category}(category='건강게시판')}">Health board</a>
+            </nav>
+        </div>
+    </div>
+    <!--게시판 소개-->
+    <main class="container">
+        <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+            <div class="col-lg-6 px-0">
+                <h1 class="display-4 fst-italic">Happy La-Luna Board</h1>
+                <p class="lead my-3">환영합니다! 우리 반려동물과의 일상을 공유하는 공간, La-Luna Board 에 오신 것을 환영합니다!
+
+                <p class="lead">여기는 우리 반려동물들의 일상을 함께 나누고 소통할 수 있는 공간입니다. 우리 반려동물들의 귀여운 사진이나 재미있는 일화, 그리고 함께 보내는 특별한 순간들을 공유해주세요.
+
+                    우리는 이 공간을 통해 반려동물과 함께하는 특별한 순간들을 기록하고 함께 나누며, 서로의 반려동물에 대한 사랑과 관심을 공유할 수 있습니다.</p>
+                <!--            <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p>-->
+            </div>
+        </div>
+        <!--건강게시판 의사소개-->
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary-emphasis">a physician</strong>
+                        <h3 class="mb-0">Eunice Doctor</h3>
+                        <div class="mb-1 text-body-secondary">내과/원장</div>
+                        <h6>· 서울대학교 수의과대학 수석 졸업 및 국가고시 수석 합격</h6>
+                        <h6>· 서울대학교 수의과대학 석박사 수료(내과학)</h6>
+                        <p class="card-text mb-auto"></p>
+                        <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+                            1:1 채팅/질문
+                            <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+                        </a>
+                    </div>
+                    <div class="col-auto d-none d-lg-block pt-4">
+                        <img th:src="@{/images/doctorwoman.png}" width="290" height="246" alt="여의사" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-success-emphasis">a surgeon</strong>
+                        <h3 class="mb-0">Dragon Doctor</h3>
+                        <div class="mb-1 text-body-secondary">외과/원장</div>
+                        <h6>· 서울대학교 수의과대학 졸업</h6>
+                        <h6>· 서울대학교 수의과대학 외과학 박사</h6>
+                        <h6>· 2018-2024 서울대학교부속동물병원 내과 진료수의사</h6>
+                        <p class="mb-auto"></p>
+                        <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+                            1:1 채팅/질문
+                            <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+                        </a>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img th:src="@{/images/doctormen.png}" width="270" height="270" alt="남의사" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--게시물 리스트 (반복문 처리)-->
+        <!--        메인 전체글 보기 리스트-->
+        <div class="row">
+            <div class="col-lg-4  pt-5" th:each="board : ${boards}">
+                <div class="mb-3" style="display: flex; align-items: flex-start;">
+                    <img class="me-3" th:src="@{/images/userImage.png}" width="50" height="50" alt="프로필" />
+                    <div style="margin-left: 10px;">
+                        <div style="height: 20px;"><strong class="d-inline-block mb-2 text-success-emphasis" th:text="${board.mid}"></strong></div>
+                        <div style="height: 20px;"><strong class="d-inline-block mb-2 text-body-secondary" th:text="${#temporals.format(board.getRegdate, 'YYYY-MM-dd')}"></strong></div>
+                    </div>
+                </div>
+                <div>
+                    <svg class="bd-placeholder-img card-img-top" width="90%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="90%" height="100%" fill="#55595c"/><text x="35%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                </div>
+                <h2 class="fw-normal mt-2" th:text="${board.title}">Heading</h2>
+                <p>카테고리: <span th:text="${board.category}"></span>
+                <div class="row">
+                    <p class="col-lg-8">
+                        <a class="btn btn-secondary" href="#" th:href="@{/boards/read/{boardno}(boardno=${board.boardno})}">View details &raquo;</a>
+                    </p>
+                    <div class="col-lg-4 text-right" >
+                        <img th:src="@{/images/like.png}" width="25" height="25" alt="좋아요"/>
+                        <img class="ms-3" th:src="@{/images/reply.png}" width="25" height="25" alt="댓글"/>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-4 -->
+        </div>
+        <!--        카테고리별 리스트 보여주기-->
+        <div class="row">
+            <div class="col-lg-4  pt-5" th:each="categoryPage : ${categoryPage}">
+                <div class="mb-3" style="display: flex; align-items: flex-start;">
+                    <img class="me-3" th:src="@{/images/userImage.png}" width="50" height="50" alt="프로필" />
+                    <div style="margin-left: 10px;">
+                        <div style="height: 20px;"><strong class="d-inline-block mb-2 text-success-emphasis" th:text="${categoryPage.mid}"></strong></div>
+                        <div style="height: 20px;"><strong class="d-inline-block mb-2 text-body-secondary" th:text="${#temporals.format(categoryPage.getRegdate, 'YYYY-MM-dd')}"></strong></div>
+                    </div>
+                </div>
+                <div>
+                    <svg class="bd-placeholder-img card-img-top" width="90%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="90%" height="100%" fill="#55595c"/><text x="35%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                </div>
+                <h2 class="fw-normal mt-2" th:text="${categoryPage.title}">Heading</h2>
+                <p>카테고리: <span th:text="${categoryPage.category}"></span>
+                <div class="row">
+                    <p class="col-lg-8">
+                        <a class="btn btn-secondary" href="#" th:href="@{/boards/read/{categoryPage}(categoryPage=${categoryPage.boardno})}">View details &raquo;</a>
+                    </p>
+                    <div class="col-lg-4 text-right" >
+                        <img th:src="@{/images/like.png}" width="25" height="25" alt="좋아요"/>
+                        <img class="ms-3" th:src="@{/images/reply.png}" width="25" height="25" alt="댓글"/>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-4 -->
+        </div>
+        <!--페이지네이션-->
+        <td colspan="6">
+            <ul class="pagination" th:if="${boards != null}">
+                <li class="page-item" th:classappend="${boards.number > 0 && nowPage > 10} ? '' : 'disabled'">
+                    <a class="page-link" th:if="${nowPage > 10}" th:href="@{|?page=${boards.number-10}|}" onclick="movePage(${boards.number-10})">
+                        <span><이전</span>
+                    </a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:if="${page != nowPage}"
+                       th:href="@{/boards/list(page=${page - 1})}"
+                       th:text="${page}" class="page-link"></a>
+                    <strong th:if="${page == nowPage}" th:text="${page}" class="page-link"></strong>
+                </li>
+                <li class="page-item" th:classappend="${!boards.hasNext || endPage >= boards.totalPages} ? 'disabled' : ''">
+                    <a class="page-link" th:if="${boards.hasNext && endPage < boards.totalPages}" th:href="@{|?page=${boards.number+10 < boards.totalPages ? boards.number+10 : boards.totalPages-1}|}" onclick="movePage(${boards.number+10 < boards.totalPages ? boards.number+10 : boards.totalPages-1})">
+                        <span>다음></span>
+                    </a>
+                </li>
+            </ul>
+        </td>
+        <td colspan="6">
+            <ul class="pagination" th:if="${categoryPage != null}">
+                <li class="page-item" th:classappend="${categoryPage.number > 0 && nowPage > 10} ? '' : 'disabled'">
+                    <a class="page-link" th:if="${nowPage > 10}" th:href="@{|/boards/category/${category}?page=${categoryPage.number-10}|}" onclick="movePage(${categoryPage.number-10})">
+                        <span><이전</span>
+                    </a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:if="${page != nowPage}" th:href="@{|/boards/category/${category}?page=${page - 1}|}" th:text="${page}" class="page-link"></a>
+                    <strong th:if="${page == nowPage}" th:text="${page}" class="page-link"></strong>
+                </li>
+                <li class="page-item" th:classappend="${!categoryPage.hasNext || endPage >= categoryPage.totalPages} ? 'disabled' : ''">
+                    <a class="page-link" th:if="${categoryPage.hasNext && endPage < categoryPage.totalPages}" th:href="@{|/boards/category/${category}?page=${categoryPage.number+1}|}" onclick="movePage(${categoryPage.number+1})">
+                        <span>다음></span>
+                    </a>
+                </li>
+            </ul>
+        </td>
+
+    </main>
+    <!--    위로가기 버튼-->
+    <p class="fixed_top">
+        <a href="#">위로</a>
+    </p>
+</th:block>
+<th:block layout:fragment="script">
+    <script>
+
+        // //무엇을 검색하면 제목이나 사용자가 다 같이 나오는 것
+        // if(Search = "${title}"){
+        //     //검색한 제목이 꿀팁 페이지. 일상, 건강페이지들에 해당하는 게시글이 나옴
+        //
+        // }
+        function submitForm() {
+            var titleValue = document.getElementById('title').value;
+            var form = document.getElementById('searchForm');
+            form.action = '/boards/board/' + titleValue;
+            form.submit();
+        }
+
+        replyPaging.addEventListener("click", function (e){
+            e.preventDefault()
+        })
+
+
+    </script>
+</th:block>
+</body>
+</html>
+<style>
+    .col-lg-4 {
+        border-bottom: solid 1px #eeeeee;
+    }
+    /*글씨 폰트*/
+    .blog-header-logo{
+        font-family: "Playfair Display", serif;
+        font-weight: 500;
+        font-size: 50px;
+    }
+    .nav-item{
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+        font-size: 20px;
+    }
+    .lead{
+        font-family: "Gowun Dodum", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    .link-secondary{
+        font-family: "Madimi One", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    /*위로가기 버튼 스타일*/
+    .fixed_top{
+        position: fixed;
+        top: 49%;
+        right: 3%;
+        width: 33px;
+        height: 33px;
+        margin: 0;
+        z-index: 1;
+    }
+    .fixed_top a{
+        display: block;
+        width: 33px;
+        height: 33px;
+        background: url("/images/img_arr_top.png") no-repeat;
+        text-indent: -99999999px;
+        overflow: hidden;
+    }
+
+    .postpaging ul.pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+
+    .postpaging ul.pagination li {
+        margin: 0 5px;
+    }
+
+    .postpaging ul.pagination li a,
+    .postpaging ul.pagination li span {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+        color: #333;
+        border-radius: 5px;
+    }
+
+    .postpaging ul.pagination li.active a,
+    .postpaging ul.pagination li.active span {
+        background-color: #007bff;
+        color: #fff;
+        border: 1px solid #007bff;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination li {
+        list-style: none;
+        margin: 0 5px;
+    }
+
+    .pagination a {
+        text-decoration: none;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        background-color: #f1f1f1;
+        color: #333;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .pagination strong {
+        color: white;
+        background-color: #0f4b43;
+        padding: 10px 15px;
+        border: 1px solid #0f4b43;
+        border-radius: 5px;
+    }
+
+    .pagination a:active,
+    .pagination a:focus {
+        background-color: #0f4b43;
+        color: white;
+    }
+
+</style>
